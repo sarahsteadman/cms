@@ -18,7 +18,6 @@ export class ContactItemComponent {
   ngOnInit() { }
 
   onSelected() {
-    console.log('Contact selected:', this.contact);
     this.contactSelected.emit();
   }
 }
