@@ -1,10 +1,8 @@
-<app-header (pageSelected)="onNavigate($event)"></app-header>
+<app-header></app-header>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <app-contacts *ngIf="loadedPage === 'contacts'"></app-contacts>
-            <app-messages *ngIf="loadedPage === 'messages'"></app-messages>
-            <app-documents *ngIf="loadedPage === 'documents'"></app-documents>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

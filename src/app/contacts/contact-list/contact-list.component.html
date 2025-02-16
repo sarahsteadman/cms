@@ -9,6 +9,7 @@
     </div>
     <div class="row panel-body">
         <div class="col-xs-12"></div>
-        <app-contact-item *ngFor="let contactEl of contacts" [contact]="contactEl"></app-contact-item>
+        <app-contact-item *ngFor="let contactEl of contacts" [contact]="contactEl"
+            [index]="contactEl.id"></app-contact-item>
     </div>
 </div>

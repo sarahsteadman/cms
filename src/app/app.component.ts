@@ -7,11 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'cms';
-  loadedPage = 'contacts'
-  onNavigate(page: string) {
-    console.log("main")
-    console.log(page)
-    this.loadedPage = page
-  }
 }

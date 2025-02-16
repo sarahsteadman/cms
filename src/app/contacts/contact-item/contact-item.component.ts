@@ -10,10 +10,8 @@ import { ContactService } from '../contact.service';
 })
 export class ContactItemComponent {
   @Input() contact: Contact;
+  @Input() index: string;
 
   constructor(private contactService: ContactService) { }
 
-  onSelected() {
-    this.contactService.contactSelected.emit(this.contact);
-  }
 }

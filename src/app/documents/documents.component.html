@@ -1,13 +1,8 @@
 <div class="row">
     <div class="col-md-5">
-        <app-document-list (passDocument)="selectedDocument = $event"></app-document-list>
+        <app-document-list></app-document-list>
     </div>
-
     <div class="col-md-4">
-        <app-document-detail *ngIf="selectedDocument; else infoText"
-            [document]="selectedDocument"></app-document-detail>
+        <router-outlet></router-outlet>
     </div>
-    <ng-template #infoText>
-        <p>Select a Document</p>
-    </ng-template>
 </div>
