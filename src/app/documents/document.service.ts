@@ -19,10 +19,8 @@ export class DocumentService {
     return this.documents.slice();
   }
   getDocument(id: string) {
-    console.log("Get Document called")
     let i = 0
     for (let document of this.documents) {
-      console.log(i, id, document.id)
       i++
       if (document.id == id) {
         return document

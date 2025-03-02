@@ -4,12 +4,16 @@
             <h3><b>Contacts</b></h3>
         </div>
         <div class="col-md-5 pull-right">
-            <button class="btn btn-success pull-right" style="margin-top: 10px;">New Contact</button>
+            <a routerLink="add">
+                <button class="btn btn-success pull-right" style="margin-top: 10px;">New Contact</button>
+            </a>
         </div>
     </div>
-    <div class="row panel-body">
-        <div class="col-xs-12"></div>
-        <app-contact-item *ngFor="let contactEl of contacts" [contact]="contactEl"
-            [index]="contactEl.id"></app-contact-item>
+    <div class="row panel-body" cdkDropList #contactsList="cdkDropList" [cdkDropListData]="contacts"
+        [cdkDropListConnectedTo]="['groupList']">
+        <div class="col-xs-12">
+            <app-contact-item *ngFor="let contactEl of contacts" [contact]="contactEl" cdkDrag
+                [cdkDragData]="contactEl"></app-contact-item>
+        </div>
     </div>
 </div>

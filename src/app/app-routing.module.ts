@@ -16,15 +16,18 @@ const appRoutes: Routes = [
     {
         path: 'documents', component: DocumentsComponent, children: [
             { path: '', component: DocumentStartComponent, pathMatch: 'full' },
+            { path: 'add', component: DocumentEditComponent },
             { path: ':id', component: DocumentDetailComponent },
-            { path: ':id/edit', component: DocumentEditComponent }
+            { path: ':id/edit', component: DocumentEditComponent },
         ]
     },
     {
         path: 'contacts', component: ContactsComponent, children: [
             { path: '', component: ContactStartComponent, pathMatch: 'full' },
+            { path: 'add', component: ContactEditComponent },
             { path: ':id', component: ContactDetailComponent },
-            { path: ':id/edit', component: ContactEditComponent }
+            { path: ':id/edit', component: ContactEditComponent },
+
         ]
     },
     {

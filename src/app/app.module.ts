@@ -22,6 +22,8 @@ import { DocumentStartComponent } from './documents/document-start/document-star
 import { ContactStartComponent } from './contacts/contact-start/contact-start.component';
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { FormsModule } from "@angular/forms"
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
   imports: [
     BrowserModule,
     DropdownDirective,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    DragDropModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

@@ -12,7 +12,9 @@ export class ContactService {
   contactUpdated = new Subject<Contact[]>();
   maxContactId: number
 
-  constructor() { }
+  constructor() {
+    this.maxContactId = this.getMaxId()
+  }
   getContacts() {
     return this.contacts.slice();
   }
@@ -40,9 +42,10 @@ export class ContactService {
     if (!newContact) {
       return
     }
-
+    console.log("Add contact called")
     this.maxContactId++
     newContact.id = this.maxContactId.toString()
+    console.log(newContact.id)
     this.contacts.push(newContact)
     this.contactUpdated.next(this.contacts.slice())
   }
