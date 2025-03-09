@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs';
 })
 export class ContactListComponent implements OnInit, OnDestroy {
   contacts: Contact[];
-  private conChangeSub: Subscription
+  private conChangeSub: Subscription;
+  searchTerm: string;
 
   constructor(private contactService: ContactService) { }
 
@@ -24,5 +25,8 @@ export class ContactListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.conChangeSub.unsubscribe();
   }
-
+  search(searchValue: string) {
+    this.searchTerm = searchValue;
+    console.log(searchValue)
+  }
 }

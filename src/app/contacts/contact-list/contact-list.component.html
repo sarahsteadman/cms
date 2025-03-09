@@ -3,17 +3,26 @@
         <div class="col-md-5">
             <h3><b>Contacts</b></h3>
         </div>
-        <div class="col-md-5 pull-right">
-            <a routerLink="add">
-                <button class="btn btn-success pull-right" style="margin-top: 10px;">New Contact</button>
-            </a>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="input-group">
+                    <input #searchBox type="text" class="form-control" placeholder="Enter a search value"
+                        (keyup)="search(searchBox.value)">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 text-right">
+                <a class="btn btn-success" [routerLink]="['add']">New Contact</a>
+            </div>
         </div>
     </div>
     <div class="row panel-body" cdkDropList #contactsList="cdkDropList" [cdkDropListData]="contacts"
         [cdkDropListConnectedTo]="['groupList']">
         <div class="col-xs-12">
-            <app-contact-item *ngFor="let contactEl of contacts" [contact]="contactEl" cdkDrag
-                [cdkDragData]="contactEl"></app-contact-item>
+            <app-contact-item *ngFor="let contactEl of contacts | contactsFilter: searchTerm" [contact]="contactEl"
+                cdkDrag [cdkDragData]="contactEl"></app-contact-item>
         </div>
     </div>
 </div>
