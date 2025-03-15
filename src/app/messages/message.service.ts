@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class MessageService {
-  messagesChanged = new EventEmitter<Message[]>
   private messages: Message[] = [];
   messageSelected = new EventEmitter<Message>();
   messageUpdated = new EventEmitter<Message[]>();
@@ -24,12 +23,12 @@ export class MessageService {
       if (message.id == id) {
         return message
       }
-      return null
     }
+    return null
   }
   addMessage(message: Message) {
     this.messages.push(message)
-    this.messagesChanged.emit(this.messages.slice())
+    this.messageUpdated.emit(this.messages.slice())
     this.storeMessages();
   }
   async fetchMessages() {
@@ -46,7 +45,4 @@ export class MessageService {
       error => console.error("Error storing messages:", error)
     );
   }
-
-
-
 }

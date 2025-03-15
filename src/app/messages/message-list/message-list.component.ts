@@ -5,7 +5,6 @@ import { MessageService } from '../message.service';
 @Component({
   selector: 'app-message-list',
   standalone: false,
-
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.css'
 })
@@ -14,11 +13,11 @@ export class MessageListComponent implements OnInit {
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.messages = this.messageService.getMessages();
-    this.messageService.messagesChanged.subscribe(
+    // this.messages = this.messageService.getMessages();
+    this.messageService.fetchMessages();
+    this.messageService.messageUpdated.subscribe(
       (messages: Message[]) => {
         this.messages = messages
-      })
+      });
   }
-
 }
