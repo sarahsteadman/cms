@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Message } from './message.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 
 @Injectable({
@@ -26,11 +27,6 @@ export class MessageService {
     }
     return null
   }
-  addMessage(message: Message) {
-    this.messages.push(message)
-    this.messageUpdated.emit(this.messages.slice())
-    this.storeMessages();
-  }
   async fetchMessages() {
     try {
       this.messages = await this.http.get<Message[]>(this.url).toPromise() || [];
@@ -44,5 +40,61 @@ export class MessageService {
       response => console.log(response),
       error => console.error("Error storing messages:", error)
     );
+  }
+  addMessage(newMessage: Message) {
+    if (!newMessage) {
+      return
+    }
+    newMessage.id = ""
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.http.post<{ message: string, msg: Message }>(this.url,
+      newMessage,
+      { headers: headers })
+
+      .subscribe(
+        (responseData) => {
+          this.messages.push(responseData.msg);
+        }
+      );
+  }
+
+  updateMessage(originalMessage: Message, newMessage: Message) {
+    if (!originalMessage || !newMessage) {
+      return;
+    }
+
+    const pos = this.messages.findIndex(d => d.id === originalMessage.id);
+
+    if (pos < 0) {
+      return;
+    }
+
+    newMessage.id = originalMessage.id;
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.http.put(this.url + originalMessage.id,
+      newMessage, { headers: headers })
+      .subscribe(
+        (response: Response) => {
+          this.messages[pos] = newMessage;
+        }
+      );
+  }
+  deleteMessage(message: Message): void {
+    if (!message) {
+      return
+    }
+    let pos = this.messages.indexOf(message)
+    if (pos < 0) {
+      return
+    }
+    this.http.delete(this.url + message.id)
+      .subscribe(
+        (response: Response) => {
+          this.messages.splice(pos, 1);
+        }
+      );
   }
 }

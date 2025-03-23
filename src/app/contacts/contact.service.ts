@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Contact } from './contact.model';
 import { Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -42,38 +42,60 @@ export class ContactService {
   }
 
   addContact(newContact: Contact) {
-    if (!newContact) return;
+    if (!newContact) {
+      return
+    }
+    newContact.id = ""
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    console.log("Add contact called");
-    this.maxContactId++;
-    newContact.id = this.maxContactId.toString();
-    console.log(newContact.id);
-    this.contacts.push(newContact);
-    this.contactUpdated.next(this.contacts.slice());
-    this.storeContacts();
+    this.http.post<{ message: string, contact: Contact }>(this.url,
+      newContact,
+      { headers: headers })
+
+      .subscribe(
+        (responseData) => {
+          this.contacts.push(responseData.contact);
+        }
+      );
   }
 
   updateContact(originalContact: Contact, newContact: Contact) {
-    if (!originalContact || !newContact) return;
+    if (!originalContact || !newContact) {
+      return;
+    }
 
-    let pos = this.contacts.indexOf(originalContact);
-    if (pos < 0) return;
+    const pos = this.contacts.findIndex(d => d.id === originalContact.id);
+
+    if (pos < 0) {
+      return;
+    }
 
     newContact.id = originalContact.id;
-    this.contacts[pos] = newContact;
-    this.contactUpdated.next(this.contacts.slice());
-    this.storeContacts();
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.http.put(this.url + originalContact.id,
+      newContact, { headers: headers })
+      .subscribe(
+        (response: Response) => {
+          this.contacts[pos] = newContact;
+        }
+      );
   }
-
   deleteContact(contact: Contact): void {
-    if (!contact) return;
-
-    let pos = this.contacts.indexOf(contact);
-    if (pos < 0) return;
-
-    this.contacts.splice(pos, 1);
-    this.contactUpdated.next(this.contacts.slice());
-    this.storeContacts();
+    if (!contact) {
+      return
+    }
+    let pos = this.contacts.indexOf(contact)
+    if (pos < 0) {
+      return
+    }
+    this.http.delete(this.url + contact.id)
+      .subscribe(
+        (response: Response) => {
+          this.contacts.splice(pos, 1);
+        }
+      );
   }
 
   async fetchContacts() {
